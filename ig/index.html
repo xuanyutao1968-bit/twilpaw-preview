@@ -24,21 +24,51 @@ table{font-size:13.5px;border-collapse:collapse}td{padding:3px 12px 3px 0;vertic
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}.grid div{aspect-ratio:3/4;background:#f3f3f3;position:relative}.grid img{width:100%;height:100%;object-fit:cover}
 .gs{position:absolute;left:6px;top:6px;font-size:11px;padding:2px 7px;border-radius:10px}.empty{max-width:1000px;margin:0 auto;padding:0 18px;color:#8a7f72;font-size:14px}
 footer{text-align:center;font-size:12px;color:#8a7f72;padding:20px 0 40px}
+
+.iphone{position:relative;width:393px;height:852px;max-width:100%;background:#fff;border-radius:56px;border:12px solid #1b1b1d;box-shadow:0 0 0 2px #444,0 18px 50px rgba(0,0,0,.25);overflow:hidden;flex:0 0 auto}
+.island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:120px;height:34px;background:#000;border-radius:20px;z-index:5}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0;font-size:15px;font-weight:600;background:#fff;z-index:4}.sic{font-size:11px;letter-spacing:1px}
+.scr{position:absolute;top:50px;bottom:84px;left:0;right:0;overflow-y:auto;display:none;scrollbar-width:none}.scr::-webkit-scrollbar{display:none}.scr.on{display:block}
+.igtop{display:flex;justify-content:space-between;align-items:center;padding:6px 14px 8px;font-size:20px;position:sticky;top:0;background:#fff;z-index:3}.igtop .logo{font-family:"Brush Script MT","Snell Roundhand",cursive;font-size:27px}.igtop b{font-size:18px}
+.tabbar{position:absolute;bottom:0;left:0;right:0;height:84px;border-top:1px solid #eee;background:#fff;display:flex;justify-content:space-around;padding-top:10px;font-size:25px;z-index:4}.tabbar span{cursor:pointer;height:30px}
+.tav{display:inline-block;width:26px;height:26px;border-radius:50%;background:url(img/avatar.jpg) center/cover;outline:1.5px solid #262626;outline-offset:1px}
+.homei{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#111;z-index:6}
+.time{font-size:12px;color:#737373}.endf{text-align:center;color:#8e8e8e;font-size:13px;padding:30px 0 40px;border-top:1px solid #efefef;margin-top:10px}
+.prof-in{padding:6px 14px 0}.pr{display:flex;align-items:center;gap:24px}.bav{width:84px;height:84px;border-radius:50%;background:url(img/avatar.jpg) center/cover}
+.stt{display:flex;gap:20px;text-align:center;font-size:13px}.stt b{display:block;font-size:16px}.bio{font-size:13.5px;line-height:1.45;margin-top:10px}
+.btns{display:flex;gap:6px;margin-top:12px}.btns span{flex:1;background:#efefef;border-radius:8px;text-align:center;padding:7px;font-size:13px;font-weight:600}
+.tabs{display:flex;border-bottom:1px solid #efefef;margin-top:14px}.tabs span{flex:1;text-align:center;padding:10px;font-size:16px}.tabs .on{border-bottom:1.5px solid #262626}
+.gnote{font-size:12px;color:#8e8e8e;text-align:center;padding:10px}.hint{font-size:12.5px;color:#8a7f72;margin-top:12px}
+
+.row{max-width:1340px;margin:0 auto;padding:0 18px;display:flex;flex-wrap:wrap;gap:22px;justify-content:flex-start}
+.post{display:flex;flex-direction:column;align-items:center;gap:16px;margin:0;padding:22px 22px 20px;background:#fbf8f3;border:1px solid #e2d9cb;border-radius:22px;width:441px;max-width:100%}
+.post .info{width:100%;flex:none;border:1px solid #eee}
+header,h3{max-width:1340px}
 </style></head><body>
 <header><h1>Twilpaw · Instagram 待发 / 已发</h1><p>账号 valepaw.co · 这里的效果按 Instagram 手机端模拟，可以左右滑动看轮播图</p><p>每条帖子都要 F V 确认后才会发 · 内部页面，请勿外传</p>
 <div class="sum"><span>待发 1</span><span>已发 0</span></div></header>
-<h3>主页九宫格预览（发完后的样子）</h3><div class="gridw"><div class="gridp"><div class="grid"><div><img src="img/p001_01_intro.jpg" alt=""><span class="gs todo">待发</span></div><div></div><div></div><div></div><div></div><div></div></div></div></div>
-<h3>待发</h3><section class="post"><div class="info"><div class="no">第 1 条</div><h2>品牌发布第一条 · Introducing Twilpaw</h2>
+<h3>待发</h3><div class="row"><section class="post"><div class="iphone" id="p1"><div class="island"></div>
+<div class="sbar"><span>9:41</span><span class="sic">▂▄▆ 􀙇 ▭</span></div>
+<div class="scr feed on">
+ <div class="igtop"><span class="logo">Instagram</span><span>♡ &nbsp;✉︎</span></div>
+ <div class="ph"><div class="av"></div><div><b>valepaw.co</b><small>Twilpaw</small></div><span class="d3">···</span></div>
+ <div class="car"><div class="slides"><img src="img/p001_01_intro.jpg" alt=""><img src="img/p001_02_studio.jpg" alt=""><img src="img/p001_03_hands.jpg" alt=""><img src="img/p001_04_pair.jpg" alt=""><img src="img/p001_05_story.jpg" alt=""></div><button class="arr l" onclick="go('p1',-1)">‹</button><button class="arr r" onclick="go('p1',1)">›</button><span class="cnt">1/5</span></div>
+ <div class="acts"><span>♡</span><span>💬</span><span>➤</span><span class="sv">🔖</span></div><div class="pd"><i></i><i></i><i></i><i></i><i></i></div>
+ <div class="cap"><p><b>valepaw.co</b> Introducing Twilpaw.</p><p>We started close to the fabric, the stitching, and the fit, and with the people who share their days with dogs and cats.</p><p>What they taught us shaped everything: fit comes before fashion, materials should hold up to real life, and a good piece is one that gets worn again and again. No costume seasons. No throwaway pieces.</p><p>Twilpaw is apparel and accessories for dogs and cats. Warm light, quiet rooms, considered pieces. Our first collection is on the way.</p><p class="perk">To our first followers: you&#x27;re here before anything else. Follow along for early access to our first collection and a private welcome offer, shared here first.</p><p class="tags">#Twilpaw #IntroducingTwilpaw #NewBrand #ConsideredDesign #DogsOfInstagram #CatsOfInstagram #DogAndCat #PetStyle #ComingSoon</p><p class="time">刚刚</p></div>
+ <div class="endf">你已看完所有新动态</div>
+</div>
+<div class="scr prof"><div class="igtop"><span><b>valepaw.co</b> ⌄</span><span>⊕ &nbsp;≡</span></div><div class="prof-in"><div class="pr"><div class="bav"></div><div class="stt"><span><b>0</b>帖子</span><span><b>0</b>粉丝</span><span><b>0</b>关注</span></div></div><div class="bio"><b>Twilpaw | Pet Apparel &amp; Accessories</b><br>Premium apparel &amp; accessories for dogs and cats 🐾<br>Cozy knits · Harnesses · Collars &amp; more</div><div class="btns"><span>编辑主页</span><span>分享主页</span></div></div><div class="tabs"><span class="on">▦</span><span>▷</span><span>☺</span></div><div class="grid"><div><img src="img/p001_01_intro.jpg" alt=""><span class="gs todo">待发</span></div><div></div><div></div><div></div><div></div><div></div></div><p class="gnote">九宫格按全部发完后的样子预览（含待发）</p></div>
+<div class="tabbar"><span onclick="tab('p1','feed')">⌂</span><span>⌕</span><span>⊕</span><span>▷</span><span onclick="tab('p1','prof')"><i class="tav"></i></span></div>
+<div class="homei"></div></div><div class="info"><div class="no">第 1 条</div><h2>品牌发布第一条 · Introducing Twilpaw</h2>
 <span class="badge todo">待发</span><table><tr><td>风格</td><td>Atelier</td></tr><tr><td>形式</td><td>轮播 5 张</td></tr>
-<tr><td>计划发布</td><td>第一天（日期待 F V 定）</td></tr><tr><td>实际发布</td><td>—</td></tr></table><div class="nt">备注</div><ul><li>首批关注福利先写成「早期优先购买 + 专属欢迎优惠」，具体力度和领取方式待定。</li><li>等 F V 说发再发。</li></ul></div>
-<div class="phone" id="p1"><div class="ph"><div class="av"></div><div><b>valepaw.co</b><small>Twilpaw</small></div><span class="d3">···</span></div>
-<div class="car"><div class="slides"><img src="img/p001_01_intro.jpg" alt=""><img src="img/p001_02_studio.jpg" alt=""><img src="img/p001_03_hands.jpg" alt=""><img src="img/p001_04_pair.jpg" alt=""><img src="img/p001_05_story.jpg" alt=""></div><button class="arr l" onclick="go('p1',-1)">‹</button><button class="arr r" onclick="go('p1',1)">›</button><span class="cnt">1/5</span></div>
-<div class="acts"><span>♡</span><span>💬</span><span>➤</span><span class="sv">🔖</span></div><div class="pd"><i></i><i></i><i></i><i></i><i></i></div>
-<div class="cap"><p><b>valepaw.co</b> Introducing Twilpaw.</p><p>We started close to the fabric, the stitching, and the fit, and with the people who share their days with dogs and cats.</p><p>What they taught us shaped everything: fit comes before fashion, materials should hold up to real life, and a good piece is one that gets worn again and again. No costume seasons. No throwaway pieces.</p><p>Twilpaw is apparel and accessories for dogs and cats. Warm light, quiet rooms, considered pieces. Our first collection is on the way.</p><p class="perk">To our first followers: you&#x27;re here before anything else. Follow along for early access to our first collection and a private welcome offer, shared here first.</p><p class="tags">#Twilpaw #IntroducingTwilpaw #NewBrand #ConsideredDesign #DogsOfInstagram #CatsOfInstagram #DogAndCat #PetStyle #ComingSoon</p></div></div></section>
+<tr><td>计划发布</td><td>第一天（日期待 F V 定）</td></tr><tr><td>实际发布</td><td>—</td></tr></table><div class="nt">备注</div><ul><li>首批关注福利先写成「早期优先购买 + 专属欢迎优惠」，具体力度和领取方式待定。</li><li>等 F V 说发再发。</li></ul>
+<p class="hint">上面手机屏幕里可以上下滑动、左右滑图；底部点 🏠 看动态，点头像看主页九宫格。</p></div>
+</section></div>
 <h3>已发</h3><p class="empty">暂无</p>
 <footer>由 社媒ins和TT负责人gg 维护，有新帖或状态变化随时更新</footer>
 <script>
-document.querySelectorAll('.phone').forEach(ph=>{const s=ph.querySelector('.slides'),c=ph.querySelector('.cnt'),d=[...ph.querySelectorAll('.pd i')];if(d[0])d[0].classList.add('on');
+document.querySelectorAll('.iphone').forEach(ph=>{const s=ph.querySelector('.slides'),c=ph.querySelector('.cnt'),d=[...ph.querySelectorAll('.pd i')];if(d[0])d[0].classList.add('on');
 s.addEventListener('scroll',()=>{const i=Math.round(s.scrollLeft/s.clientWidth);if(c)c.textContent=(i+1)+'/'+d.length;d.forEach((e,k)=>e.classList.toggle('on',k===i))})});
+function tab(id,w){const p=document.getElementById(id);p.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.classList.contains(w)))}
 function go(id,n){const s=document.querySelector('#'+id+' .slides');s.scrollTo({left:(Math.round(s.scrollLeft/s.clientWidth)+n)*s.clientWidth,behavior:'smooth'})}
 </script></body></html>
