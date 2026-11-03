@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Twilpaw 爆款参考库 · v2</title>
+<style>
+:root {
+  --bg:#fafafa; --card:#fff; --text:#111; --muted:#737373; --line:#dbdbdb;
+  --cream:#f5f0e8; --accent:#1a1a1a; --ok:#0a7a3e; --bar:#111;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 110px}
+.profile{display:flex;gap:24px;align-items:center;padding:8px 0 22px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.avatar{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#1a1a1a,#8a7a62);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;letter-spacing:.04em;flex-shrink:0}
+.profile h1{margin:0 0 6px;font-size:24px;font-weight:500}
+.stats{display:flex;flex-wrap:wrap;gap:18px;margin:8px 0;font-size:14px}
+.stats b{font-weight:650}
+.bio{color:var(--muted);font-size:13px;line-height:1.55;max-width:520px}
+.bio strong{color:var(--text)}
+.hint{margin:0 0 14px;padding:12px 14px;background:var(--cream);border-radius:10px;font-size:13px;color:#444;line-height:1.5}
+.filters{display:flex;flex-direction:column;gap:10px;margin:0 0 16px}
+.frow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.flabel{font-size:12px;color:var(--muted);min-width:52px}
+.chipbtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;color:#333}
+.chipbtn.on{background:#111;color:#fff;border-color:#111}
+.issue{margin-bottom:34px}
+.issue-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:8px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.issue-head h2{margin:0;font-size:16px;font-weight:600}
+.issue-head .date{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+@media(max-width:640px){.profile{flex-direction:column;align-items:flex-start}.grid{gap:2px}}
+.cell{position:relative;aspect-ratio:1/1;overflow:hidden;background:#111;border:0;padding:0;cursor:pointer}
+.cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s,opacity .25s}
+.cell:hover img{transform:scale(1.03);opacity:.88}
+.cell.hidden{display:none}
+.badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.72);color:#fff;font-size:12px;font-weight:600;padding:4px 8px;border-radius:999px}
+.play{position:absolute;right:8px;top:8px;width:22px;height:22px;border-radius:4px;background:rgba(0,0,0,.55);color:#fff;display:grid;place-items:center;font-size:11px}
+.stars{position:absolute;left:8px;bottom:8px;color:#ffd166;font-size:11px;text-shadow:0 1px 2px #000;letter-spacing:1px}
+.sel{
+  position:absolute;right:8px;bottom:8px;z-index:2;border:0;border-radius:999px;
+  padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;
+  background:rgba(255,255,255,.92);color:#111
+}
+.sel.on{background:#0a7a3e;color:#fff}
+.meta-overlay{position:absolute;left:0;right:0;bottom:0;padding:28px 10px 36px;background:linear-gradient(transparent,rgba(0,0,0,.68));color:#fff;font-size:12px;opacity:0;transition:opacity .2s;text-align:left}
+.cell:hover .meta-overlay{opacity:1}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:16px;z-index:60}
+.modal.open{display:flex}
+.sheet{background:var(--card);width:min(1000px,100%);max-height:calc(100vh - 28px);overflow:auto;border-radius:14px;display:grid;grid-template-columns:minmax(260px,1.05fr) minmax(280px,.95fr)}
+@media(max-width:860px){.sheet{grid-template-columns:1fr}}
+.media{background:#000;display:flex;align-items:center;justify-content:center;min-height:320px}
+.media video,.media .placeholder{width:100%;max-height:min(78vh,720px);background:#000}
+.media .placeholder{color:#ddd;display:grid;place-items:center;padding:36px;text-align:center;aspect-ratio:4/5;font-size:14px;line-height:1.6}
+.side{padding:18px 20px 26px;overflow:auto}
+.close{position:sticky;top:0;float:right;margin:-2px -2px 8px 8px;border:0;background:#f2f2f2;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px}
+.side h2{margin:0 0 8px;font-size:17px;line-height:1.35}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chip{font-size:12px;background:#f2f2f2;color:#333;padding:4px 9px;border-radius:999px}
+.side a{color:#00376b;word-break:break-all;font-size:13px}
+.block{margin-top:14px}
+.block h3{margin:0 0 6px;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.block p,.block li{margin:0;font-size:13.5px;line-height:1.6}
+.block ul{margin:0;padding-left:18px}
+.block li{margin-bottom:4px}
+.imitate{background:#f7f5f1;border-radius:12px;padding:12px 14px;margin-top:14px}
+.imitate h3{margin:0 0 8px;font-size:13px}
+.promptbox{margin-top:10px;background:#111;color:#f2f2f2;border-radius:10px;padding:12px;font-size:12.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.rowbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn{border:0;border-radius:999px;padding:8px 14px;font-size:12.5px;cursor:pointer;background:#eee;color:#111}
+.btn.primary{background:#111;color:#fff}
+.btn.ok{background:#0a7a3e;color:#fff}
+.pickbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;
+  background:rgba(17,17,17,.96);color:#fff;padding:12px 16px;
+  display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;
+  transform:translateY(110%);transition:transform .2s ease
+}
+.pickbar.show{transform:translateY(0)}
+.pickbar .txt{font-size:14px;font-weight:600;letter-spacing:.02em}
+.pickbar .sub{font-size:12px;color:#bbb;width:100%;text-align:center}
+footer{margin-top:28px;text-align:center;color:var(--muted);font-size:12px}
+.older{opacity:.95}
+.empty{padding:28px;text-align:center;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="profile">
+    <div class="avatar">TWILPAW</div>
+    <div>
+      <h1>Twilpaw 爆款参考库</h1>
+      <div class="stats">
+        <div><b id="postCount">0</b> 条参考</div>
+        <div><b>多期归档</b></div>
+        <div><b>TT / Ins / 小红书</b></div>
+      </div>
+      <div class="bio">
+        <strong>Twilpaw</strong> · 美国市场高端宠物服饰 · 前期只拍生活与品牌故事，不露产品<br />
+        点「选中」后底部会生成「要第 x、y 条」，复制发我就行 · 选中后我会丢给 Muse 生成模仿视频<br />
+        <span style="color:#999">可编辑源文件（相对路径引用 small/）</span>
+      </div>
+    </div>
+  </header>
+
+  <p class="hint">筛选后点格子看详情与 Muse 英文提示词。Instagram 登录后会并入新一期。品牌写法：Twilpaw / 字标 TWILPAW，不要写 ValePaw。</p>
+
+  <div class="filters">
+    <div class="frow" id="platFilters">
+      <span class="flabel">平台</span>
+    </div>
+    <div class="frow" id="tagFilters">
+      <span class="flabel">类型</span>
+    </div>
+  </div>
+
+  <div id="issues"></div>
+  <footer>Twilpaw 参考库 · 本地使用 · 选中条目后复制底部文案发给社媒视频助理</footer>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<div class="pickbar" id="pickbar">
+  <div class="txt" id="pickText">要第 — 条</div>
+  <button class="btn ok" type="button" id="copyPick">复制选型</button>
+  <button class="btn" type="button" id="clearPick">清空</button>
+  <div class="sub">复制后直接发给我，我会按条目去 Muse 生成模仿视频（竖屏 9:16）</div>
+</div>
+
+<script>
+const ISSUES = [{"id": "2026-11-03", "date": "2026-11-03", "title": "第 2 期 · Instagram 宠物穿搭与节日钩子", "note": "本轮 TikTok 网页地区墙（status=7）且未登录，0 条 TikTok；小红书未登录仅见封面网格，第 10 条为格式卡无内嵌视频。9 条 Instagram 均来自已登录 valepaw.co 只读检索。", "posts": [{"num": 1, "title": "窗边叠穿金句——灵缇的安静奢华宣言", "platform": "Ins", "account": "@bondir_official", "likes": "59.2 万赞 · 1.14 万分享", "href": "https://www.instagram.com/reel/DTSf6t0DaRy/", "video": "2026-11-03/01.mp4", "thumb": "2026-11-03/thumbs/01.jpg", "tags": ["高级感"], "stars": 5, "difficulty": "中等", "fit": "都可以", "why": "一句拟人金句 “I came, I sniff, I conquered” + 落地窗边叠穿特写，分享破万，最接近 Twilpaw 早期 quiet luxury 调性。", "how": ["竖构图窗边自然光，猫狗侧脸或正脸站定，主人只露整理衣领的手", "衬线英文字幕一句拟人金句，不堆卖点", "只借光线、姿态和叠穿层次，不露吊牌与购买引导", "结尾定格封面感，字幕落 TWILPAW"], "imitate": {"open3": "0–3 秒：窗边灵缇/猫狗中景，人手整理领口；金句字幕淡入。", "shots": ["窗边站姿中景", "衣领与毛发特写", "侧脸慢推", "杂志封面感定格"], "music": "低调弦乐或轻爵士，BPM 慢，不抢画面", "caption": "I came. I sniffed. I conquered.\nQuiet luxury, paws edition.\n\n#Twilpaw #QuietLuxury #DogLifestyle #EditorialPets #USPets"}, "muse": "Vertical 9:16 short film, about 12 seconds, upscale fashion-magazine look. Subject: elegant Italian greyhound standing on a dark stool by floor-to-ceiling windows in a bright US loft; a human hand adjusts the collar area only—no product logos, no tags, no shopping. Shots: medium standing portrait; gentle close-up on fur and calm eyes; slow push-in; final still like a magazine cover. On-screen line in clean serif: I came. I sniffed. I conquered. Camera: smooth cinematic, shallow depth of field, soft daylight. Mood: quiet luxury. Optional end title TWILPAW. Never ValePaw. No product close-ups.", "videoSrc": "small/2026-11-03/01.mp4", "thumbSrc": "small/2026-11-03/thumbs/01.jpg", "starsLabel": "★★★★★"}, {"num": 2, "title": "冬季造型开场——贵宾雪衣拉链特写", "platform": "Ins", "account": "@juliaa.kari", "likes": "140 万赞 · 3.29 万分享", "href": "https://www.instagram.com/reel/DTmtkL-CN2G/", "video": "2026-11-03/02.mp4", "thumb": "2026-11-03/thumbs/02.jpg", "tags": ["高级感", "节日热点"], "stars": 5, "difficulty": "简单", "fit": "都可以", "why": "大字「冬季造型」+ 拉链特写开场，140 万赞证明安静穿衣片也能爆；同一场景可做成系列（该账号另一条条纹毛衣也破 10 万）。", "how": ["固定一张舒服的椅子/沙发场景，一期一套服装氛围", "开场 3 秒先给标题再给动作，不口播硬卖", "暖室内光，居家杂志感；不拍吊牌与购买链接", "可剪成「Winter with Twilpaw」系列短片"], "imitate": {"open3": "0–3 秒：英文字幕 Winter look 淡入，同时手拉上拉链的特写。", "shots": ["标题叠字幕", "拉链/穿衣手部特写", "狗坐姿中景", "微笑眼神定格"], "music": "温柔流行或 lo-fi，情绪暖但不吵", "caption": "Winter look, soft light, quiet company.\n\n#Twilpaw #WinterDog #PetLifestyle #SoftLuxury #USPets"}, "muse": "Vertical 9:16, about 12 seconds, warm indoor lifestyle. A fluffy brown poodle sits on a cream shearling chair while a person gently zips a burgundy winter layer—show the gesture and mood, not brand labels or product packing. Opening title in clean sans: Winter look. Soft lamp light, cozy US apartment. Shots: title + zip close-up; medium portrait; calm eye contact; gentle hold. No shopping CTA. End optional TWILPAW. Never ValePaw.", "videoSrc": "small/2026-11-03/02.mp4", "thumbSrc": "small/2026-11-03/thumbs/02.jpg", "starsLabel": "★★★★★"}, {"num": 3, "title": "纽约雪人狗——圣诞街拍反差萌", "platform": "Ins", "account": "@the_doggie_days", "likes": "97.8 万赞", "href": "https://www.instagram.com/reel/DCzx40byMCl/", "video": "2026-11-03/03.mp4", "thumb": "2026-11-03/thumbs/03.jpg", "tags": ["节日热点", "搞笑剧情"], "stars": 5, "difficulty": "中等", "fit": "都可以", "why": "Dean Martin 圣诞歌一起，雪地里「雪人狗」直接入画，真实 NYC 街拍不是棚拍，节日生活感极强。", "how": ["选下雪的城市步道或公园，真实路人背景", "开场即主题造型全身入画，配经典圣诞歌气质 BGM", "只拍氛围与路人反应，不推单品细节", "文案轻松自嘲，不做促销"], "imitate": {"open3": "0–3 秒：雪地全景，一只打扮成雪人的小狗入画，圣诞旋律起。", "shots": ["雪地全景入场", "狗脸特写", "路人走过的背景", "主人脚步跟拍"], "music": "经典圣诞爵士/轻快假日曲，注意版权或用替代气质曲", "caption": "Snow day uniform: soft layers and good spirits.\n\n#Twilpaw #SnowDay #DogsofNYC #HolidayPets #USPets"}, "muse": "Vertical 9:16, about 12 seconds, candid NYC snow-day lifestyle. A small white dog in a playful snowman-inspired winter look walks a snowy city path with pedestrians in soft background blur. No product logos, no price tags. Camera: handheld documentary, natural winter light. Mood: cheerful holiday, authentic street. Optional end title TWILPAW. Never ValePaw.", "videoSrc": "small/2026-11-03/03.mp4", "thumbSrc": "small/2026-11-03/thumbs/03.jpg", "starsLabel": "★★★★★"}, {"num": 4, "title": "影棚拱门定格——灵缇的杂志封面", "platform": "Ins", "account": "@dali_iggy", "likes": "24.6 万赞 · 2382 评论", "href": "https://www.instagram.com/reel/C8_OvcFokBC/", "video": "2026-11-03/04.mp4", "thumb": "2026-11-03/thumbs/04.jpg", "tags": ["高级感"], "stars": 5, "difficulty": "中等", "fit": "Ins", "why": "几乎无口播，白拱门影棚 + 一件花卉大衣正面定格，最像纸媒封面；适合品牌故事片头。", "how": ["浅色拱门或留白墙，正面站姿", "开场就是定格大片，少字或无字", "一件造型即可，不做目录轮播", "结尾衬线 TWILPAW 落版"], "imitate": {"open3": "0–3 秒：影棚正面全身定格，几乎无字幕，音乐缓入。", "shots": ["正面全身", "慢推面部", "衣摆/毛发细节（不露标）", "封面定格"], "music": "极简钢琴或弦乐 pad", "caption": "Cover story energy.\n\n#Twilpaw #EditorialPets #DogFashion #QuietLuxury"}, "muse": "Vertical 9:16, about 10 seconds, studio editorial. Italian greyhound standing centered under a pale arched backdrop, soft fashion lighting, one elegant floral-inspired coat silhouette without readable logos. Almost no on-screen text until optional TWILPAW end card. Slow push-in, magazine still. Never ValePaw. No product packing shots.", "videoSrc": "small/2026-11-03/04.mp4", "thumbSrc": "small/2026-11-03/thumbs/04.jpg", "starsLabel": "★★★★★"}, {"num": 5, "title": "车尾箱揭晓——「别让狗妈看见」圣诞钩子", "platform": "Ins", "account": "@littletreepups", "likes": "25.7 万赞 · 4459 分享", "href": "https://www.instagram.com/reel/DehUZ3jtbvY/", "video": "2026-11-03/05.mp4", "thumb": "2026-11-03/thumbs/05.jpg", "tags": ["节日热点", "互动玩法"], "stars": 4, "difficulty": "简单", "fit": "TikTok", "why": "禁止句 + 盖布悬念 + 圣诞歌，分享近 4500；同脚本低赞版很多，说明钩子有效但要控画质与时机。", "how": ["开场大字 Don't show this to a dog mom + 被布盖住的车尾箱/礼物", "3 秒后揭晓节日氛围造型（不推购买链接）", "美式郊区/家门口雪景更贴美国市场", "早期不做评论索链，只借揭晓节奏"], "imitate": {"open3": "0–3 秒：黑底或实拍大字 Don't show this to a dog mom，布还盖着。", "shots": ["盖布悬念", "手掀开", "狗的节日造型中景", "主人轻笑反应"], "music": "欢快圣诞流行气质曲（注意版权）", "caption": "Dog moms said one holiday look.\nThe dog had other plans.\n\n#Twilpaw #DogMom #HolidayPets #ChristmasDog"}, "muse": "Vertical 9:16, about 12 seconds, playful holiday reveal. Snowy suburban driveway, hands lift a red plaid cloth from a car trunk to reveal a small dog in a cozy Christmas-ready look—mood and surprise only, no product labels or buy links. Opening bold text: Don't show this to a dog mom. Warm daylight. End optional TWILPAW. Never ValePaw.", "videoSrc": "small/2026-11-03/05.mp4", "thumbSrc": "small/2026-11-03/thumbs/05.jpg", "starsLabel": "★★★★☆"}, {"num": 6, "title": "家门口 GRWM——当场给狗穿米白连帽", "platform": "Ins", "account": "@indy.thecockapoo", "likes": "21 万赞 · 3000 分享", "href": "https://www.instagram.com/reel/DWZEzn4ju5d/", "video": "2026-11-03/06.mp4", "thumb": "2026-11-03/thumbs/06.jpg", "tags": ["互动玩法"], "stars": 4, "difficulty": "简单", "fit": "都可以", "why": "二选一提问 + 当场穿衣过程，生活感强、分享高，比纯成品摆拍更像「自家拍」。", "how": ["自然光室内，完整拍穿衣过程 8–12 秒", "字幕二选一：Cutest teddy or perfect gentleman?", "过程感优先，结束后再给一个漂亮定格", "不露品牌吊牌"], "imitate": {"open3": "0–3 秒：提问字幕出现，同时手把衣服套进狗头。", "shots": ["穿衣过程", "整理帽檐/领口", "狗看镜头", "完成后中景"], "music": "轻快 indie pop", "caption": "Cutest teddy bear or perfect gentleman?\n\n#Twilpaw #GRWM #DogOOTD #PetLifestyle"}, "muse": "Vertical 9:16, about 12 seconds, candid home GRWM. Natural window light, a person gently putting a cream hooded layer on a fluffy cockapoo—show the process, not labels. On-screen question: Cutest teddy bear or perfect gentleman? Soft authentic US home. End TWILPAW optional. Never ValePaw.", "videoSrc": "small/2026-11-03/06.mp4", "thumbSrc": "small/2026-11-03/thumbs/06.jpg", "starsLabel": "★★★★☆"}, {"num": 7, "title": "衣橱档案 ep.1——迷你腊肠的粉色粗花呢", "platform": "Ins", "account": "@eloisetheminiween", "likes": "7.27 万赞 · 2544 分享", "href": "https://www.instagram.com/reel/DcByCl9hNPk/", "video": "2026-11-03/07.mp4", "thumb": "2026-11-03/thumbs/07.jpg", "tags": ["高级感"], "stars": 4, "difficulty": "中等", "fit": "Ins", "why": "系列栏目名 Closet Files + 已穿好的造型开场，适合品牌故事连载；调性偏甜，结构可学。", "how": ["固定栏目名：Twilpaw Closet Files ep.xx", "开场已穿好造型 + 一句「大家总问衣服从哪来」改成品牌故事句", "粉色/奶油室内亦可换成中性高级色", "不做价格表，只讲感觉"], "imitate": {"open3": "0–3 秒：系列标题 Closet Files ep.1 + 穿好造型的狗坐在椅子上。", "shots": ["栏目标题卡", "全身坐姿", "面料/毛发近景（无标）", "眨眼定格"], "music": "轻柔沙龙钢琴或弦乐小品", "caption": "Closet Files, ep.1 — soft tweed energy.\n\n#Twilpaw #ClosetFiles #DogFashion #EditorialPets"}, "muse": "Vertical 9:16, about 12 seconds, soft editorial series opener. Tiny dachshund in a refined pink tweed-inspired look and beret on a pastel chair; title card: Closet Files ep.1. No prices, no logos. Gentle salon lighting. Optional end TWILPAW. Never ValePaw.", "videoSrc": "small/2026-11-03/07.mp4", "thumbSrc": "small/2026-11-03/thumbs/07.jpg", "starsLabel": "★★★★☆"}, {"num": 8, "title": "圣诞厨房掀布——小型犬妈妈别看", "platform": "Ins", "account": "@pawlidays_", "likes": "5.2 万赞 · 1161 评论", "href": "https://www.instagram.com/reel/DdcrYMJhx0p/", "video": "2026-11-03/08.mp4", "thumb": "2026-11-03/thumbs/08.jpg", "tags": ["节日热点", "互动玩法"], "stars": 4, "difficulty": "简单", "fit": "TikTok", "why": "厨房花环灯串 + 掀布揭晓，评论过千；原帖有索评转化，Twilpaw 早期只借揭晓不要索链。", "how": ["圣诞厨房布景，布盖住主体", "大字点名 small dog mom，再揭晓", "去掉 Comment Dog 类转化，改成品牌氛围文案", "竖屏快节奏 10–12 秒"], "imitate": {"open3": "0–3 秒：厨房花环背景，布还盖着，字幕 Don't let a small dog mom see this。", "shots": ["盖布", "掀开", "小狗节日造型", "灯串虚化收尾"], "music": "轻快假日曲", "caption": "Holiday kitchen, soft lights, one small surprise.\n\n#Twilpaw #SmallDogMom #ChristmasDog #HolidayPets"}, "muse": "Vertical 9:16, about 12 seconds, cozy Christmas kitchen reveal. Hands lift a festive cloth on a counter under wreath and string lights to reveal a small dog in a holiday-ready look—atmosphere only, no buy links or comment CTAs. Bold hook text about small dog moms. End optional TWILPAW. Never ValePaw.", "videoSrc": "small/2026-11-03/08.mp4", "thumbSrc": "small/2026-11-03/thumbs/08.jpg", "starsLabel": "★★★★☆"}, {"num": 9, "title": "先问一句——灰猫的万圣节服装悬念", "platform": "Ins", "account": "@zukothegrey", "likes": "5.89 万赞 · 1845 分享", "href": "https://www.instagram.com/reel/DeyotN-hDuV/", "video": "2026-11-03/09.mp4", "thumb": "2026-11-03/thumbs/09.jpg", "tags": ["互动玩法"], "stars": 4, "difficulty": "简单", "fit": "TikTok", "why": "服装还没出现就先问 do you want to see my costume，纯好奇心驱动；可改成圣诞/日常穿搭提问。", "how": ["开场只有猫/狗看镜头 + 提问字幕", "停顿 1–2 秒再切服装或转身展示", "家里实拍，拒绝广告棚感", "可把 Halloween 换成 Christmas sweater reveal"], "imitate": {"open3": "0–3 秒：猫看镜头，字幕 Do you want to see my Christmas look?", "shots": ["提问特写", "短暂停顿", "转身/展示造型", "评分引导可省略"], "music": "轻松电子或吉他", "caption": "Do you want to see the look?\n\n#Twilpaw #CatMom #PetLifestyle #SoftLaunch"}, "muse": "Vertical 9:16, about 10 seconds, candid home. A grey cat on a sofa looks at camera; text: Do you want to see my Christmas look? Pause, then a simple cozy seasonal layer appears—no logos. Authentic living room light. Optional TWILPAW end. Never ValePaw.", "videoSrc": "small/2026-11-03/09.mp4", "thumbSrc": "small/2026-11-03/thumbs/09.jpg", "starsLabel": "★★★★☆"}, {"num": 10, "title": "左右对照爆款拆解——小红书宠物用品篇", "platform": "小红书", "account": "Lumeo的海外社媒笔记", "likes": "588 赞（封面可见）", "href": "https://www.xiaohongshu.com/user/profile/65e548540000000005008dbf", "video": null, "thumb": "2026-11-03/thumbs/10.jpg", "tags": ["互动玩法", "高级感"], "stars": 3, "difficulty": "中等", "fit": "都可以", "why": "未登录只能看封面：蓝天小动物约 81 万播放对照博美正脸外文约 86.6 万——左右爆款对照是可复用的拆解形式；本轮无直链原视频。新帖 Part.31 活动创意（11/02）可下次登录后深挖。", "how": ["Twilpaw 可自制「海外宠物生活爆款对照」短视频：左原 hook、右自家猫狗生活感重拍", "只借结构，不搬运原片画面", "登录小红书后补看正文再细化脚本", "前期仍不露产品细节"], "imitate": {"open3": "0–3 秒：左右分屏标题 Overseas hit vs Twilpaw remake。", "shots": ["分屏标题", "左侧示意 hook（自拍）", "右侧 Twilpaw 猫狗生活", "结论字幕"], "music": "轻快讲解向 BGM", "caption": "Same hook. Our dogs. Our light.\n\n#Twilpaw #PetCreative #SocialHooks #USPets"}, "muse": "Vertical 9:16, about 12 seconds, educational split-screen style without copying any real brand ad. Left: simple illustrated hook board saying This is a hook. Right: authentic US home clip of a dog and cat in soft daylight lifestyle, no products. Title: Overseas hit vs Twilpaw remake. Clean, magazine-soft grade. End TWILPAW. Never ValePaw.", "videoSrc": null, "thumbSrc": "small/2026-11-03/thumbs/10.jpg", "starsLabel": "★★★☆☆"}]}, {"id": "2026-11-02", "date": "2026-11-02", "title": "第 1 期 · 宠物服饰与生活方式爆款", "note": "本轮暂无 Instagram（尚未登录）。第 6 条来自小红书，无直链原视频。", "posts": [{"num": 1, "title": "贵妇助理感——阿富汗猎犬的杂志封面日常", "platform": "TikTok", "account": "@afghanhoundinthecity", "likes": "6.17 万", "href": "https://www.tiktok.com/@afghanhoundinthecity/video/7690933605727538465", "video": "01.mp4", "thumb": "01.jpg", "tags": ["高级感"], "stars": 5, "difficulty": "中等", "fit": "都可以", "why": "文案「behind every well dressed woman is an assistant」把宠物写成贵妇助理，镜头和剪辑像时尚杂志大片，奢华感一眼能认出。", "how": ["竖构图，慢推近景：猫狗跟在主人侧后，像「随身助理」", "胶片色、衬线英文字幕：Weekend companion / Soft power", "只拍氛围与神态，不露任何服饰细节或吊牌", "结尾定格封面感一帧，字幕落 TWILPAW"], "imitate": {"open3": "0–3 秒：阿富汗猎犬侧后方跟拍，主人只露大衣下摆与手；字幕淡入 Soft power。", "shots": ["主人侧后跟拍中景", "犬脸侧脸特写", "慢推至脚步与毛发", "杂志封面感定格"], "music": "轻爵士 / 低调弦乐，BPM 偏慢，不抢画面", "caption": "Behind every well-dressed moment, a quiet companion.\n\n#Twilpaw #QuietLuxury #DogLifestyle #EditorialPets #USPets"}, "muse": "Vertical 9:16 short film, 12 seconds, upscale fashion-magazine look. Subject: elegant adult Afghan hound walking just behind a stylish woman on a quiet autumn city sidewalk in the US; woman visible only from coat hem and hand, never face. No pet apparel product, no logos, no price tags, no shopping bags. Shots: slow tracking behind the pair; soft side profile of the hound; gentle push-in on fur and calm eyes; final still frame like a magazine cover. Camera: smooth handheld cinematic, shallow depth of field, warm film grain, golden-hour soft light. Mood: quiet luxury, soft power, refined. Optional end title in clean serif: TWILPAW. Never use ValePaw. Brand name only as Twilpaw if spoken text is needed.", "videoSrc": "small/01.mp4", "thumbSrc": "small/thumbs/01.jpg", "starsLabel": "★★★★★"}, {"num": 2, "title": "时装周穿搭日记——灵缇犬的纽约一周", "platform": "TikTok", "account": "@tikatheiggy", "likes": "43.15 万", "href": "https://www.tiktok.com/@tikatheiggy/video/7689536367281392903", "video": "02.mp4", "thumb": "02.jpg", "tags": ["高级感", "节日热点"], "stars": 5, "difficulty": "中等", "fit": "都可以", "why": "借纽约时装周热点，用「一周穿搭合集」讲故事，灵缇犬本身就有超模比例，时尚感天然成立。", "how": ["钩子：「My week in the city with …」分日切镜", "场景选咖啡馆、书店、秋日街道，美式都会生活", "每段只拍姿态与光影，不推单品", "片尾一句品牌故事文案，不带购买引导"], "imitate": {"open3": "0–3 秒：黑底白字 My week in the city，切到灵缇犬走出咖啡馆门口。", "shots": ["咖啡馆门口出场", "书店橱窗侧影", "秋日街道跟拍", "日落窗边定格"], "music": "都市流行轻节奏，带一点 runway 鼓点", "caption": "My week in the city — told by an Italian greyhound.\n\n#Twilpaw #NYFWEnergy #DogInTheCity #PetFashionMood #LifestyleDogs"}, "muse": "Vertical 9:16 montage, 15 seconds, upscale magazine lifestyle. Subject: sleek Italian greyhound as the star of a New York City week diary; no clothing products shown. Four quick day-scenes: cafe doorway, bookstore window reflection, autumn sidewalk stroll, sunset windowsill. Camera: crisp editorial cuts, gentle pans, soft natural light, cool-neutral color grade. Mood: fashion-week energy without logos or runway branding. Text overlays may say Day 1–4 in minimal sans. Optional end mark TWILPAW. Never ValePaw. No product close-ups.", "videoSrc": "small/02.mp4", "thumbSrc": "small/thumbs/02.jpg", "starsLabel": "★★★★★"}, {"num": 3, "title": "八秒奢华氛围——只留 Luxury vibe", "platform": "TikTok", "account": "@bondir_official", "likes": "37.2 万", "href": "https://www.tiktok.com/@bondir_official/video/7593730599307742477", "video": "03.mp4", "thumb": "03.jpg", "tags": ["高级感"], "stars": 4, "difficulty": "简单", "fit": "TikTok", "why": "仅约 8 秒，配热门音乐，字幕直打 Luxury vibe，节奏短、调性准，品类与宠物服饰高度相关。", "how": ["压到 6–8 秒：柔光特写毛发、项圈阴影、窗边侧脸", "字幕只用氛围词：Soft luxury / Quiet elegance", "绝不给产品特写或价格信息，只留生活方式", "热门轻爵士或低调电子底乐，结尾静帧落 TWILPAW"], "imitate": {"open3": "0–3 秒：窗边柔光扫过狗狗毛发，字幕 Luxury vibe ONLY 淡入。", "shots": ["毛发柔光特写", "侧脸剪影", "窗框构图定格"], "music": "8 秒热门轻电子 / lounge，卡点剪辑", "caption": "Luxury vibe only.\n\n#Twilpaw #SoftLuxury #DogAesthetic #QuietLuxuryPets"}, "muse": "Vertical 9:16 ultra-short film, 8 seconds. Subject: beautiful dog in soft window light, lifestyle only — no apparel product, no brand merch on the animal. Shots: fur texture close-up, calm side profile silhouette, final still by the window. Camera: slow micro-moves, creamy bokeh, warm highlights. Mood: soft luxury, quiet elegance. On-screen text optional: Soft luxury. End with TWILPAW in small serif. Never ValePaw.", "videoSrc": "small/03.mp4", "thumbSrc": "small/thumbs/03.jpg", "starsLabel": "★★★★☆"}, {"num": 4, "title": "Classy & Fabulous——玩具贵宾的都会贵气", "platform": "TikTok", "account": "@xssundaypup", "likes": "3.1 万", "href": "https://www.tiktok.com/@xssundaypup/video/7684672950477278494", "video": "04.mp4", "thumb": "04.jpg", "tags": ["高级感"], "stars": 4, "difficulty": "简单", "fit": "都可以", "why": "标题直接打 classy & fabulous，玩具贵宾造型精致，整支片子像小型生活方式广告，贵气但不吵闹。", "how": ["室内自然光：沙发、大理石台面、绿植，杂志室内页感觉", "文案短句：Classy mornings / Fabulous walks", "镜头停留在神态与环境，不切服饰细节", "色调统一冷暖中性，避免过饱和滤镜"], "imitate": {"open3": "0–3 秒：玩具贵宾坐在浅色沙发，自然光从左侧洒入，字幕 Classy mornings。", "shots": ["沙发坐姿中景", "绿植与大理石环境空镜", "眼神特写", "门口准备出门的背影"], "music": "慵懒爵士或轻钢琴", "caption": "Classy mornings. Fabulous walks.\n\n#Twilpaw #ToyPoodleLife #ClassyPets #HomeEditorial"}, "muse": "Vertical 9:16 lifestyle clip, 10 seconds, magazine interior aesthetic. Subject: well-groomed toy poodle in a bright modern apartment with sofa, marble surface, and plants. No clothing products or accessories for sale. Shots: seated medium shot in soft daylight, environmental detail, eye close-up, doorway silhouette. Camera: locked-off and gentle pans, neutral color grade, airy shadows. Mood: classy and fabulous, calm confidence. Optional end title TWILPAW. Never ValePaw.", "videoSrc": "small/04.mp4", "thumbSrc": "small/thumbs/04.jpg", "starsLabel": "★★★★☆"}, {"num": 5, "title": "狗仔拍明星——宠物日常变小报头条", "platform": "TikTok", "account": "@afghanhoundinthecity", "likes": "3.05 万", "href": "https://www.tiktok.com/@afghanhoundinthecity/video/7683197880592600353", "video": "05.mp4", "thumb": "05.jpg", "tags": ["搞笑剧情", "高级感"], "stars": 5, "difficulty": "中等", "fit": "TikTok", "why": "把日常散步拍成狗仔追拍明星，概念反差强、记忆点深，适合品牌故事向内容。", "how": ["手持晃动 + 快切，字幕做成假小报头条", "主角是猫狗「明星」，主人只入半身或背影", "钩子：「Caught leaving brunch…」一类英文假新闻句", "结尾露出冷静定格，字幕：Always in the spotlight · TWILPAW"], "imitate": {"open3": "0–3 秒：手持晃动追拍狗狗出门，假小报字幕 Caught leaving brunch。", "shots": ["门廊快切", "街道侧面追拍", "闪光灯感空镜", "冷静正脸定格"], "music": "轻松八卦感电子或相机快门采样", "caption": "Caught leaving brunch. Always in the spotlight.\n\n#Twilpaw #PaparazziPet #DogDrama #CelebrityDogEnergy"}, "muse": "Vertical 9:16 playful editorial sketch, 12 seconds. Concept: paparazzi chasing a celebrity dog leaving brunch on a US city street. Subject: glamorous long-haired hound as the star; owner only as blurry torso. No pet product placement. Shots: shaky handheld chase, quick side angles, faux flash cutaways, calm final portrait. Camera: documentary paparazzi energy then settle to studio-still ending. Mood: witty, glamorous, tongue-in-cheek. Text: Caught leaving brunch. End TWILPAW. Never ValePaw.", "videoSrc": "small/05.mp4", "thumbSrc": "small/thumbs/05.jpg", "starsLabel": "★★★★★"}, {"num": 6, "title": "周末遛弯小队——同框出行拼贴", "platform": "小红书", "account": "Alex全球创意库", "likes": "封面约 3 万赞", "href": "https://www.xiaohongshu.com/user/profile/6a2844b50000000004031801", "video": null, "thumb": "06.jpg", "tags": ["高级感"], "stars": 5, "difficulty": "较难", "fit": "Ins", "why": "一群人同框出行的生活拼贴，封面信息密度高，「小队感」容易引发向往与转发。改编自 Part.024。本轮无直链原视频。", "how": ["做成「Weekend walk club」：几位主人和猫狗在美国秋日街区散步", "胶片调拼贴封面，衬线标题 Weekend walk club", "只拍氛围与关系，不露产品细节", "适合作为品牌故事系列的第一支认知片"], "imitate": {"open3": "0–3 秒：四宫格拼贴同时出现，衬线标题 Weekend walk club。", "shots": ["多人多宠同框中景", "牵绳手部特写（无品牌）", "落叶街道空镜", "拼贴定格封面"], "music": "轻快民谣或胶片感原声", "caption": "Weekend walk club. Soft light, slower mornings, better company.\n\n#Twilpaw #WeekendWalkClub #PetCommunity #FilmLook"}, "muse": "Vertical 9:16 brand-story film, 14 seconds, collage-friendly editorial look. Subject: a small US weekend walking club — a few owners and their cats/dogs strolling an autumn neighborhood together. No product, no apparel details, no logos on pets. Shots: group medium shot, hands holding plain leashes, falling leaves insert, final collage-style still with serif title Weekend walk club. Camera: warm film grain, soft daylight, gentle zooms. Mood: belonging, lifestyle, quiet luxury community. End mark TWILPAW. Never ValePaw.", "videoSrc": null, "thumbSrc": "small/thumbs/06.jpg", "starsLabel": "★★★★★"}, {"num": 7, "title": "南瓜田出游——秋日造型散步", "platform": "TikTok", "account": "@fourandaquarterweens", "likes": "4.51 万", "href": "https://www.tiktok.com/@fourandaquarterweens/video/7691171769788419359", "video": "07.mp4", "thumb": "07.jpg", "tags": ["节日热点"], "stars": 3, "difficulty": "简单", "fit": "都可以", "why": "南瓜田外景 + 造型散步，季节感强；适合「出游日记」模板。", "how": ["换成美式秋日公园或街区，不做硬广产品清单", "字幕只写地点与心情，例如 Sunday in the park", "中景跟拍散步节奏，穿插落叶与侧脸特写", "可做成固定栏目：Twilpaw Weekend Diary"], "imitate": {"open3": "0–3 秒：狗狗走进秋日公园小路，字幕 Sunday in the park。", "shots": ["小路跟拍", "落叶特写", "侧脸中景", "回眸定格"], "music": "清新民谣吉他", "caption": "Sunday in the park. Autumn air, slower steps.\n\n#Twilpaw #WeekendDiary #FallDogs #PetOuting"}, "muse": "Vertical 9:16 outdoor lifestyle clip, 12 seconds. Subject: a dachshund or small dog walking through a US autumn park path with soft fallen leaves; no costume product focus. Shots: following medium shot, leaf detail insert, side portrait, look-back still. Camera: natural handheld, warm autumn grade. Mood: gentle seasonal diary. Text: Sunday in the park. Optional TWILPAW end card. Never ValePaw.", "videoSrc": "small/07.mp4", "thumbSrc": "small/thumbs/07.jpg", "starsLabel": "★★★☆☆"}, {"num": 8, "title": "猜下一套——换装悬念钩子", "platform": "TikTok", "account": "@mariaxpfps2", "likes": "15.13 万", "href": "https://www.tiktok.com/@mariaxpfps2/video/7699042845834956045", "video": "08.mp4", "thumb": "08.jpg", "tags": ["互动玩法"], "stars": 4, "difficulty": "中等", "fit": "TikTok", "why": "「Guess the next outfit」制造悬念，观众会滑到最后看揭晓，完播和评论都容易起来。", "how": ["改成「Guess the next vibe」：猜下一幕场景氛围，不猜具体单品", "三幕节奏：提问 → 过场 → 揭晓生活场景", "揭晓画面仍是生活方式，不出现产品", "引导评论：「A cozy / B city chic？」"], "imitate": {"open3": "0–3 秒：猫脸特写 + 大字幕 Guess the next vibe？A or B。", "shots": ["提问特写", "黑场倒计时", "揭晓生活场景", "引导评论定格"], "music": "悬念感短音效 + 轻快揭晓鼓点", "caption": "Guess the next vibe — A cozy or B city chic?\n\n#Twilpaw #GuessTheVibe #CatTok #InteractivePets"}, "muse": "Vertical 9:16 interactive-style short, 11 seconds. Subject: charming cat; reveal lifestyle vibes not clothing products. Structure: close-up question card Guess the next vibe; brief black countdown; reveal a cozy sunlit windowsill scene; end prompt A or B. Camera: punchy cuts, clean graphics space, soft indoor light. Mood: playful curiosity. No product shown. Optional TWILPAW watermark tiny at end. Never ValePaw.", "videoSrc": "small/08.mp4", "thumbSrc": "small/thumbs/08.jpg", "starsLabel": "★★★★☆"}, {"num": 9, "title": "你最爱哪一套——评论区互动选型", "platform": "TikTok", "account": "@benson_maltipoo", "likes": "6.45 万", "href": "https://www.tiktok.com/@benson_maltipoo/video/7701851899154238733", "video": "09.mp4", "thumb": "09.jpg", "tags": ["互动玩法"], "stars": 3, "difficulty": "简单", "fit": "TikTok", "why": "多套造型并排，直接问 which is your favorite，评论区变成投票区，互动成本极低。", "how": ["改成三种「周末状态」并排：lazy morning / city stroll / golden hour", "每格只拍同一只猫狗在不同场景的神态", "字幕：Which weekend are you? 1 / 2 / 3", "不展示服饰单品，只展示生活方式切片"], "imitate": {"open3": "0–3 秒：三格分屏同时出现同一只马尔济斯，字幕 Which weekend are you?", "shots": ["三格并排", "逐格放大", "投票引导字幕"], "music": "轻快流行 loop", "caption": "Which weekend are you? 1 lazy morning / 2 city stroll / 3 golden hour\n\n#Twilpaw #WhichOne #DogPoll #WeekendMood"}, "muse": "Vertical 9:16 split-screen lifestyle poll, 10 seconds. Subject: one maltipoo shown in three weekend moods — lazy morning bed light, city sidewalk stroll, golden-hour park glow. No outfits or products. Shots: three-panel open, quick punch-ins per panel, end card Which weekend are you? 1/2/3. Camera: bright, clean, social-native. Mood: friendly and choosable. Tiny TWILPAW end mark allowed. Never ValePaw.", "videoSrc": "small/09.mp4", "thumbSrc": "small/thumbs/09.jpg", "starsLabel": "★★★☆☆"}, {"num": 10, "title": "年度十佳造型榜——节日排行榜玩法", "platform": "TikTok", "account": "@weratedogs", "likes": "140 万", "href": "https://www.tiktok.com/@weratedogs/video/7702840399282310414", "video": "10.mp4", "thumb": "10.jpg", "tags": ["节日热点", "互动玩法"], "stars": 3, "difficulty": "中等", "fit": "TikTok", "why": "Top 10 排行榜形式清晰，搭上节日热点，适合作为格式模板而非内容照搬。", "how": ["做成「Top 5 quiet luxury dog moments」生活瞬间榜，不谈服装", "每名 2–3 秒：晨光、窗边、街道侧影", "倒计排行增加期待，第 1 名留给品牌故事定格", "节日节点可复用同一模板换主题"], "imitate": {"open3": "0–3 秒：大标题 Top 5 quiet luxury dog moments，从第 5 名倒计。", "shots": ["榜单标题卡", "5 个生活瞬间快切", "第 1 名品牌故事定格"], "music": "节奏感榜单 BGM，每名卡点", "caption": "Top 5 quiet luxury dog moments.\n\n#Twilpaw #Top5 #QuietLuxury #DogMoments"}, "muse": "Vertical 9:16 countdown list film, 15 seconds. Theme: Top 5 quiet luxury dog moments — lifestyle only, no costumes or products. Five brief poetic shots of dogs in morning light, window sill, rainy glass, city silhouette, final intimate portrait as number 1. Camera: graphic title cards between clips, snappy transitions, elevated color grade. Mood: curated, premium, seasonal-list energy. End with TWILPAW. Never ValePaw.", "videoSrc": "small/10.mp4", "thumbSrc": "small/thumbs/10.jpg", "starsLabel": "★★★☆☆"}]}];
+const selected = new Set();
+let plat = "全部";
+let tag = "全部";
+
+const PLATS = ["全部", "TikTok", "Ins", "小红书"];
+const TAGS = ["全部", "高级感", "搞笑剧情", "节日热点", "互动玩法"];
+
+function $(id) { return document.getElementById(id); }
+
+function buildFilters() {
+  const pf = $("platFilters");
+  PLATS.forEach(p => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chipbtn" + (p === plat ? " on" : ""); b.textContent = p;
+    b.onclick = () => { plat = p; renderFilters(); render(); };
+    pf.appendChild(b);
+  });
+  const tf = $("tagFilters");
+  TAGS.forEach(t => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chipbtn" + (t === tag ? " on" : ""); b.textContent = t;
+    b.onclick = () => { tag = t; renderFilters(); render(); };
+    tf.appendChild(b);
+  });
+}
+
+function renderFilters() {
+  [...$("platFilters").querySelectorAll(".chipbtn")].forEach((b, i) => b.classList.toggle("on", PLATS[i] === plat));
+  [...$("tagFilters").querySelectorAll(".chipbtn")].forEach((b, i) => b.classList.toggle("on", TAGS[i] === tag));
+}
+
+function keyOf(issueId, num) { return issueId + "#" + num; }
+
+function matchPost(p) {
+  if (plat !== "全部" && p.platform !== plat) return false;
+  if (tag !== "全部" && !(p.tags || []).includes(tag)) return false;
+  return true;
+}
+
+function pickPhrase() {
+  const nums = [...selected].map(k => parseInt(k.split("#")[1], 10)).sort((a,b)=>a-b);
+  if (!nums.length) return "";
+  return "要第 " + nums.join("、") + " 条";
+}
+
+function updateBar() {
+  const phrase = pickPhrase();
+  const bar = $("pickbar");
+  if (!phrase) { bar.classList.remove("show"); return; }
+  $("pickText").textContent = phrase;
+  bar.classList.add("show");
+}
+
+async function copyText(text, btn) {
+  try {
+    await navigator.clipboard.writeText(text);
+    const old = btn.textContent; btn.textContent = "已复制";
+    setTimeout(() => btn.textContent = old, 1200);
+  } catch (e) {
+    const ta = document.createElement("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand("copy"); document.body.removeChild(ta);
+    const old = btn.textContent; btn.textContent = "已复制";
+    setTimeout(() => btn.textContent = old, 1200);
+  }
+}
+
+function toggleSelect(issueId, num, ev) {
+  if (ev) ev.stopPropagation();
+  const k = keyOf(issueId, num);
+  if (selected.has(k)) selected.delete(k); else selected.add(k);
+  render();
+  updateBar();
+}
+
+function openPost(issue, p) {
+  const how = (p.how || []).map(x => `<li>${x}</li>`).join("");
+  const shots = (p.imitate.shots || []).map(x => `<li>${x}</li>`).join("");
+  const media = p.videoSrc
+    ? `<video src="${p.videoSrc}" controls playsinline autoplay></video>`
+    : `<div class="placeholder">本条来自小红书<br/>无直链原视频可播放<br/><br/>请打开下方原链接查看灵感</div>`;
+  const selOn = selected.has(keyOf(issue.id, p.num));
+  $("sheet").innerHTML = `
+    <div class="media">${media}</div>
+    <div class="side">
+      <button class="close" type="button" aria-label="关闭">×</button>
+      <h2>${p.num}. ${p.title}</h2>
+      <div class="chips">
+        <span class="chip">${p.platform}</span>
+        <span class="chip">${p.account}</span>
+        <span class="chip">${p.likes}</span>
+        <span class="chip">推荐指数 ${p.starsLabel}</span>
+        <span class="chip">拍摄/生成难度 ${p.difficulty}</span>
+        <span class="chip">适合发 ${p.fit}</span>
+        ${(p.tags||[]).map(t=>`<span class="chip">${t}</span>`).join("")}
+      </div>
+      <div><a href="${p.href}" target="_blank" rel="noopener">打开原视频 / 原帖</a></div>
+      <div class="rowbtns">
+        <button class="btn ${selOn ? "ok" : "primary"}" type="button" id="selInModal">${selOn ? "已选中" : "选中这条"}</button>
+      </div>
+      <div class="block"><h3>为什么火</h3><p>${p.why}</p></div>
+      <div class="block"><h3>Twilpaw 怎么模仿</h3><ul>${how}</ul></div>
+      <div class="imitate">
+        <h3>模仿卡</h3>
+        <div class="block" style="margin-top:0"><h3>开头 3 秒怎么拍</h3><p>${p.imitate.open3}</p></div>
+        <div class="block"><h3>镜头清单</h3><ul>${shots}</ul></div>
+        <div class="block"><h3>音乐建议</h3><p>${p.imitate.music}</p></div>
+        <div class="block"><h3>英文文案</h3><p style="white-space:pre-wrap">${p.imitate.caption}</p>
+          <div class="rowbtns"><button class="btn" type="button" id="copyCap">复制英文文案</button></div>
+        </div>
+      </div>
+      <div class="block">
+        <h3>Muse 生成提示词（英文，可直接粘贴）</h3>
+        <div class="promptbox" id="museBox">${p.muse}</div>
+        <div class="rowbtns"><button class="btn primary" type="button" id="copyMuse">复制 Muse 提示词</button></div>
+      </div>
+    </div>`;
+  $("sheet").querySelector(".close").onclick = closeModal;
+  $("selInModal").onclick = (e) => { toggleSelect(issue.id, p.num, e); openPost(issue, p); };
+  $("copyCap").onclick = (e) => copyText(p.imitate.caption, e.currentTarget);
+  $("copyMuse").onclick = (e) => copyText(p.muse, e.currentTarget);
+  $("modal").classList.add("open");
+}
+
+function closeModal() {
+  const v = $("sheet").querySelector("video");
+  if (v) { v.pause(); v.removeAttribute("src"); v.load(); }
+  $("modal").classList.remove("open");
+  $("sheet").innerHTML = "";
+}
+
+function render() {
+  const root = $("issues");
+  root.innerHTML = "";
+  let visible = 0;
+  ISSUES.forEach((issue, idx) => {
+    const posts = issue.posts.filter(matchPost);
+    const sec = document.createElement("section");
+    sec.className = "issue" + (idx > 0 ? " older" : "");
+    sec.innerHTML = `<div class="issue-head"><h2>${issue.title}</h2><div class="date">${issue.date}</div></div>
+      <p class="hint" style="margin-top:0">${issue.note || ""}</p>
+      <div class="grid"></div>`;
+    const grid = sec.querySelector(".grid");
+    if (!posts.length) {
+      grid.innerHTML = `<div class="empty">这个筛选下本期没有条目</div>`;
+    } else {
+      posts.forEach(p => {
+        visible += 1;
+        const on = selected.has(keyOf(issue.id, p.num));
+        const btn = document.createElement("div");
+        btn.className = "cell";
+        btn.innerHTML = `
+          <img src="${p.thumbSrc}" alt="${p.title}" loading="lazy" />
+          <span class="badge">${String(p.num).padStart(2,"0")}</span>
+          ${p.videoSrc ? '<span class="play">▶</span>' : ""}
+          <span class="stars">${p.starsLabel}</span>
+          <button type="button" class="sel ${on ? "on" : ""}">${on ? "已选" : "选中"}</button>
+          <span class="meta-overlay">${p.title}</span>`;
+        btn.querySelector("img").addEventListener("click", () => openPost(issue, p));
+        btn.querySelector(".meta-overlay").addEventListener("click", () => openPost(issue, p));
+        btn.querySelector(".sel").addEventListener("click", (e) => toggleSelect(issue.id, p.num, e));
+        grid.appendChild(btn);
+      });
+    }
+    root.appendChild(sec);
+  });
+  $("postCount").textContent = String(visible);
+  updateBar();
+}
+
+$("modal").addEventListener("click", (e) => { if (e.target === $("modal")) closeModal(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+$("copyPick").onclick = (e) => copyText(pickPhrase(), e.currentTarget);
+$("clearPick").onclick = () => { selected.clear(); render(); };
+
+buildFilters();
+render();
+</script>
+</body>
+</html>
